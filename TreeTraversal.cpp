@@ -1,4 +1,6 @@
 #include<iostream>
+#include<stack>
+#include<queue>
 
 using namespace std;
 
@@ -80,6 +82,34 @@ void printTree(Node *root) {
 	printTree(root->right);
 }
 
+void levelOrderUtil(Node *root, queue<Node*> lQ) {
+	
+	if(NULL == root) return;
+
+	lQ.push(root);
+	
+	while(!lQ.empty()) {
+		Node *tmp = lQ.front();
+		cout<<tmp->val<<" ";
+		if(tmp->left != NULL)
+			lQ.push(tmp->left);
+		
+		if(tmp->right != NULL)
+			lQ.push(tmp->right);
+
+		lQ.pop();
+	}
+	
+}	
+
+void levelOrderTraversal(Node *root) {
+
+	if(NULL == root) return;
+	queue<Node*> lQ;
+
+	levelOrderUtil(root, lQ);
+}
+
 
 
 int main() {
@@ -121,5 +151,10 @@ int main() {
 	cout<<"Print in range: ["<<5<<","<<15<<"] :";
 	printInRange(root,5, 15);
 	cout<<endl;
+
+	cout<<"Level order traversal: ";
+	levelOrderTraversal(root);
+	cout<<endl;
+
 	return 0;
 }

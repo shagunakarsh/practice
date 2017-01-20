@@ -110,7 +110,36 @@ void levelOrderTraversal(Node *root) {
 	levelOrderUtil(root, lQ);
 }
 
+void spiralTraversalUtil(Node *root, int level, bool ltr) {
+	if(NULL == root) return;
 
+	else if(level == 1) cout<<root->val<<" ";
+	else if(level > 1) {
+		if(ltr) {
+			spiralTraversalUtil(root->left, level-1, ltr);
+			spiralTraversalUtil(root->right, level-1, ltr);
+		} else {
+			spiralTraversalUtil(root->right, level-1, ltr);
+			spiralTraversalUtil(root->left, level-1, ltr);
+		}
+	}
+}
+
+int heightOfTree(Node *root) {
+	if(root == NULL) return 0;
+
+	return max(1+heightOfTree(root->left), 1+heightOfTree(root->right));
+}
+
+void spiralTraversal(Node *root) {
+	if(NULL == root) return;
+	//cout<<"height of Tree: "<<heightOfTree(root)<<endl;
+	bool ltr = true;
+	for(int i=1; i<=heightOfTree(root); ++i) {
+		spiralTraversalUtil(root, i, ltr);
+		ltr = !ltr;
+	}
+}
 
 int main() {
 
@@ -155,6 +184,9 @@ int main() {
 	cout<<"Level order traversal: ";
 	levelOrderTraversal(root);
 	cout<<endl;
-
+	
+	cout<<"Spiral order traversal: ";
+	spiralTraversal(root);
+	cout<<endl;
 	return 0;
 }
